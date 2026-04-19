@@ -2,7 +2,7 @@
 
 > Detects phishing attempts in SMS messages and emails using BERT AI, domain verification, and typosquat detection — all running locally with zero data sent online.
 
-**[🌐 Live Demo](https:///kalilinux-exp.github.io/phishguard)** · Built by Kalixte Petrof
+**[🌐 Live Demo](https:///kalilinux-exp.github.io/Phishguard)** · Built by Kalixte Petrof
 
 ---
 
