@@ -123,7 +123,6 @@ Result:  REAL (0.0% chance of being fake)
 Built as an independent research project exploring the application of transformer-based language models to real-world cybersecurity problems.
 
 **Kalixte Petrof** ---- High school researcher interested in cybersecurity, AI, and their intersection.
-(thats me!)
 ---
 
 *⚠️ PhishGuard is a research project. No detector is 100% accurate,, — always verify suspicious messages through official channels.*
