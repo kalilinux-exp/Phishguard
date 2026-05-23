@@ -3,163 +3,195 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PhishGuard — AI-Powered Phishing Detection</title>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>PhishGuard — Phishing Detector</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #f8f9fb;
-  --white: #ffffff;
-  --border: #e4e7ec;
-  --border-light: #f0f2f5;
-  --text: #0f1117;
-  --text-mid: #4b5563;
-  --text-dim: #9ca3af;
-  --accent: #1a56db;
-  --accent-light: #eff4ff;
-  --danger: #dc2626;
-  --danger-light: #fef2f2;
-  --danger-border: #fecaca;
-  --warn: #d97706;
-  --warn-light: #fffbeb;
-  --warn-border: #fde68a;
-  --safe: #059669;
-  --safe-light: #ecfdf5;
-  --safe-border: #a7f3d0;
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-  --shadow: 0 4px 16px rgba(0,0,0,0.06), 0 2px 6px rgba(0,0,0,0.04);
-  --radius: 12px;
-  --radius-sm: 8px;
-  --serif: 'Instrument Serif', Georgia, serif;
-  --sans: 'DM Sans', system-ui, sans-serif;
+  --bg: #0d1117;
+  --surface: #161b22;
+  --surface-2: #1c2128;
+  --border: #30363d;
+  --border-light: #21262d;
+  --text: #e6edf3;
+  --text-mid: #8b949e;
+  --text-dim: #484f58;
+  --danger: #f85149;
+  --danger-light: #2a1515;
+  --danger-border: #5a2020;
+  --warn: #d29922;
+  --warn-light: #261e08;
+  --warn-border: #4a3800;
+  --safe: #3fb950;
+  --safe-light: #122018;
+  --safe-border: #1e4526;
+  --blue: #58a6ff;
+  --blue-light: #0f1d35;
+  --shadow: 0 4px 20px rgba(0,0,0,.5);
+  --radius: 8px;
+  --radius-sm: 6px;
+  --sans: 'Inter', system-ui, sans-serif;
   --mono: 'JetBrains Mono', monospace;
 }
+
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
-body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:15px;line-height:1.6;min-height:100vh;-webkit-font-smoothing:antialiased;}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px;line-height:1.6;min-height:100vh;-webkit-font-smoothing:antialiased;}
 
 /* NAV */
-nav{background:rgba(255,255,255,0.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;padding:0 24px;}
-.nav-inner{max-width:900px;margin:0 auto;height:56px;display:flex;align-items:center;justify-content:space-between;}
-.nav-logo{display:flex;align-items:center;gap:8px;text-decoration:none;}
-.nav-logo-mark{width:30px;height:30px;background:var(--accent);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px;color:white;flex-shrink:0;}
-.nav-logo-name{font-weight:600;font-size:16px;color:var(--text);letter-spacing:-0.2px;}
-.nav-logo-name span{color:var(--accent);}
-.nav-badge{font-family:var(--mono);font-size:11px;background:var(--accent-light);color:var(--accent);padding:3px 9px;border-radius:99px;font-weight:500;border:1px solid #c7d9ff;}
+nav{background:var(--surface);border-bottom:1px solid var(--border);padding:0 24px;position:sticky;top:0;z-index:100;}
+.nav-inner{max-width:960px;margin:0 auto;height:50px;display:flex;align-items:center;justify-content:space-between;}
+.nav-logo{display:flex;align-items:center;gap:9px;text-decoration:none;}
+.nav-icon{width:26px;height:26px;background:var(--danger);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;}
+.nav-name{font-weight:700;font-size:14px;color:var(--text);letter-spacing:-.2px;}
+.nav-right{font-family:var(--mono);font-size:11px;color:var(--text-dim);}
 
 /* HERO */
-.hero{max-width:900px;margin:0 auto;padding:64px 24px 48px;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;}
-@media(max-width:700px){.hero{grid-template-columns:1fr;gap:32px;padding:40px 20px 32px;}}
-.hero-left{animation:slideUp .5s ease both;}
-.hero-tag{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:500;color:var(--accent);background:var(--accent-light);border:1px solid #c7d9ff;padding:4px 10px;border-radius:99px;margin-bottom:18px;letter-spacing:.3px;}
-.hero-tag::before{content:'';width:6px;height:6px;background:var(--accent);border-radius:50%;animation:blink 1.5s ease-in-out infinite;}
-@keyframes blink{0%,100%{opacity:1;}50%{opacity:.3;}}
-h1{font-family:var(--serif);font-size:clamp(30px,4vw,44px);font-weight:400;line-height:1.15;letter-spacing:-.5px;margin-bottom:16px;}
-h1 em{font-style:italic;color:var(--accent);}
-.hero-desc{color:var(--text-mid);font-size:15px;line-height:1.7;margin-bottom:28px;}
-.hero-stats{display:flex;gap:24px;}
-.hero-stat{display:flex;flex-direction:column;gap:2px;}
-.hero-stat-num{font-family:var(--mono);font-size:20px;font-weight:500;color:var(--text);letter-spacing:-.5px;}
-.hero-stat-label{font-size:11px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.8px;}
-.hero-stat-div{width:1px;background:var(--border);align-self:stretch;}
-.hero-right{animation:slideUp .5s .1s ease both;}
-.threat-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);}
-.threat-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
-.threat-card-title{font-size:12px;font-weight:600;color:var(--text-dim);text-transform:uppercase;letter-spacing:.8px;}
-.threat-live{font-size:11px;font-weight:500;padding:3px 8px;border-radius:99px;font-family:var(--mono);background:#fef2f2;color:var(--danger);border:1px solid var(--danger-border);}
-.threat-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--radius-sm);margin-bottom:6px;font-size:13px;}
-.threat-item.r{background:var(--danger-light);color:var(--danger);}
-.threat-item.y{background:var(--warn-light);color:var(--warn);}
-.threat-item.g{background:var(--safe-light);color:var(--safe);}
-.threat-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
-.threat-item.r .threat-dot{background:var(--danger);}
-.threat-item.y .threat-dot{background:var(--warn);}
-.threat-item.g .threat-dot{background:var(--safe);}
+.hero{max-width:960px;margin:0 auto;padding:52px 24px 44px;display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:center;}
+@media(max-width:680px){.hero{grid-template-columns:1fr;gap:28px;padding:32px 20px 24px;}}
+.hero-label{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--danger);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:12px;}
+h1{font-size:clamp(24px,3.2vw,38px);font-weight:700;line-height:1.18;letter-spacing:-.4px;margin-bottom:12px;}
+.hero-desc{color:var(--text-mid);font-size:14px;line-height:1.75;margin-bottom:18px;}
+.hero-note{font-family:var(--mono);font-size:11px;color:var(--text-dim);}
+.hero-note span{color:var(--text-mid);}
+
+/* THREAT FEED */
+.threat-feed{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
+.feed-header{padding:9px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.feed-title{font-family:var(--mono);font-size:10px;font-weight:600;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;}
+.feed-live{display:flex;align-items:center;gap:5px;font-family:var(--mono);font-size:10px;color:var(--danger);}
+.feed-live::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--danger);animation:pulse 1.8s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+.feed-item{padding:9px 14px;border-bottom:1px solid var(--border-light);display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;font-size:12.5px;}
+.feed-item:last-child{border-bottom:none;}
+.feed-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;}
+.feed-item.r .feed-dot{background:var(--danger);}
+.feed-item.y .feed-dot{background:var(--warn);}
+.feed-item.g .feed-dot{background:var(--safe);}
+.feed-text{color:var(--text-mid);}
+.feed-item.r .feed-text{color:var(--text);}
+.feed-badge{font-family:var(--mono);font-size:9px;font-weight:700;padding:2px 6px;border-radius:3px;letter-spacing:.5px;}
+.feed-item.r .feed-badge{background:var(--danger-light);color:var(--danger);border:1px solid var(--danger-border);}
+.feed-item.y .feed-badge{background:var(--warn-light);color:var(--warn);border:1px solid var(--warn-border);}
+.feed-item.g .feed-badge{background:var(--safe-light);color:var(--safe);border:1px solid var(--safe-border);}
 
 /* MAIN */
-.main{max-width:900px;margin:0 auto;padding:0 24px 80px;}
-.divider-label{display:flex;align-items:center;gap:12px;margin-bottom:24px;color:var(--text-dim);font-size:12px;font-weight:500;text-transform:uppercase;letter-spacing:1px;}
-.divider-label::before,.divider-label::after{content:'';flex:1;height:1px;background:var(--border);}
-.form-card{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:32px;box-shadow:var(--shadow);animation:slideUp .5s .2s ease both;}
-.field{display:flex;flex-direction:column;gap:6px;margin-bottom:18px;}
-.field label{font-size:13px;font-weight:500;color:var(--text-mid);}
-.optional{font-weight:400;color:var(--text-dim);font-size:11px;margin-left:4px;}
-textarea,input[type="text"]{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-family:var(--sans);font-size:14px;padding:11px 14px;transition:border-color .15s,box-shadow .15s,background .15s;outline:none;resize:none;}
-textarea{height:120px;line-height:1.6;}
-textarea:focus,input:focus{border-color:var(--accent);background:var(--white);box-shadow:0 0 0 3px rgba(26,86,219,.08);}
-textarea::placeholder,input::placeholder{color:var(--text-dim);font-size:13px;}
-.btn-row{display:flex;gap:12px;margin-top:4px;}
-.btn-analyze{flex:1;padding:13px 24px;background:var(--accent);color:white;border:none;border-radius:var(--radius-sm);font-family:var(--sans);font-size:14px;font-weight:600;cursor:pointer;transition:background .15s,transform .1s,box-shadow .15s;display:flex;align-items:center;justify-content:center;gap:8px;letter-spacing:-.1px;box-shadow:0 1px 3px rgba(26,86,219,.3);}
-.btn-analyze:hover{background:#1648c0;box-shadow:0 4px 12px rgba(26,86,219,.35);transform:translateY(-1px);}
-.btn-analyze:active{transform:translateY(0);}
-.btn-analyze:disabled{opacity:.6;cursor:not-allowed;transform:none;}
-.btn-clear{padding:13px 16px;background:transparent;color:var(--text-mid);border:1.5px solid var(--border);border-radius:var(--radius-sm);font-family:var(--sans);font-size:14px;font-weight:500;cursor:pointer;transition:all .15s;}
-.btn-clear:hover{background:var(--bg);border-color:#c8cdd6;color:var(--text);}
-.hint{font-size:12px;color:var(--text-dim);margin-top:10px;}
-kbd{background:var(--border-light);border:1px solid var(--border);border-radius:4px;padding:1px 5px;font-family:var(--mono);font-size:11px;}
+.main{max-width:960px;margin:0 auto;padding:0 24px 80px;}
+.section-bar{font-family:var(--mono);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-dim);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border);}
+
+/* FORM CARD */
+.form-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
+
+/* TABS */
+.tabs{display:flex;border-bottom:1px solid var(--border);}
+.tab-btn{flex:1;padding:10px 16px;border:none;border-right:1px solid var(--border);background:transparent;color:var(--text-mid);font-family:var(--sans);font-size:13px;font-weight:500;cursor:pointer;transition:color .15s,background .15s;}
+.tab-btn:last-child{border-right:none;}
+.tab-btn.active{color:var(--text);background:var(--surface-2);}
+.tab-btn:hover:not(.active){color:var(--text);background:var(--border-light);}
+
+.tab-panel{padding:18px;}
+
+/* INPUTS */
+.field{display:flex;flex-direction:column;gap:5px;margin-bottom:13px;}
+.field label{font-size:12px;font-weight:500;color:var(--text-mid);}
+.optional{font-weight:400;color:var(--text-dim);}
+textarea,input[type="text"]{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-family:var(--sans);font-size:13px;padding:9px 11px;transition:border-color .15s,box-shadow .15s;outline:none;resize:none;}
+textarea{height:108px;line-height:1.6;}
+#headerInput{font-family:var(--mono);font-size:12px;height:160px;}
+textarea:focus,input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(88,166,255,.1);}
+textarea::placeholder,input::placeholder{color:var(--text-dim);font-size:12px;}
+
+/* BUTTONS */
+.btn-row{display:flex;gap:8px;margin-top:2px;}
+.btn-analyze{flex:1;padding:9px 18px;background:var(--danger);color:#fff;border:none;border-radius:var(--radius-sm);font-family:var(--sans);font-size:13px;font-weight:600;cursor:pointer;transition:opacity .15s,transform .1s;display:flex;align-items:center;justify-content:center;gap:8px;}
+.btn-analyze:hover{opacity:.85;}
+.btn-analyze:active{transform:scale(.99);}
+.btn-analyze:disabled{opacity:.45;cursor:not-allowed;}
+.btn-clear{padding:9px 13px;background:transparent;color:var(--text-mid);border:1px solid var(--border);border-radius:var(--radius-sm);font-family:var(--sans);font-size:13px;font-weight:500;cursor:pointer;transition:all .15s;}
+.btn-clear:hover{background:var(--surface-2);color:var(--text);}
+.hint{font-family:var(--mono);font-size:11px;color:var(--text-dim);margin-top:7px;}
+kbd{background:var(--border-light);border:1px solid var(--border);border-radius:3px;padding:1px 5px;font-size:10px;color:var(--text-mid);}
 
 /* RESULT */
-.result{display:none;margin-top:20px;border-radius:16px;border:1.5px solid;overflow:hidden;animation:resultIn .4s cubic-bezier(.34,1.56,.64,1) both;box-shadow:var(--shadow);}
-@keyframes resultIn{from{opacity:0;transform:translateY(12px) scale(.98);}to{opacity:1;transform:translateY(0) scale(1);}}
+.result{display:none;margin-top:10px;border-radius:var(--radius);border:1px solid;overflow:hidden;animation:fadeUp .3s ease both;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
 .result.danger{border-color:var(--danger-border);background:var(--danger-light);}
 .result.warn{border-color:var(--warn-border);background:var(--warn-light);}
 .result.safe{border-color:var(--safe-border);background:var(--safe-light);}
-.result-top{padding:24px 28px;display:flex;align-items:flex-start;gap:16px;border-bottom:1px solid;}
+.result-top{padding:16px 18px;display:flex;align-items:flex-start;gap:12px;border-bottom:1px solid;}
 .result.danger .result-top{border-color:var(--danger-border);}
 .result.warn .result-top{border-color:var(--warn-border);}
 .result.safe .result-top{border-color:var(--safe-border);}
-.result-icon-wrap{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
-.result.danger .result-icon-wrap{background:#fee2e2;}
-.result.warn .result-icon-wrap{background:#fef3c7;}
-.result.safe .result-icon-wrap{background:#d1fae5;}
+.result-icon-wrap{width:36px;height:36px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.result.danger .result-icon-wrap{background:rgba(248,81,73,.18);}
+.result.warn .result-icon-wrap{background:rgba(210,153,34,.18);}
+.result.safe .result-icon-wrap{background:rgba(63,185,80,.18);}
 .result-heading{flex:1;}
-.result-title{font-size:18px;font-weight:700;line-height:1.2;margin-bottom:5px;letter-spacing:-.2px;}
+.result-title{font-size:14px;font-weight:700;line-height:1.2;margin-bottom:4px;}
 .result.danger .result-title{color:var(--danger);}
 .result.warn .result-title{color:var(--warn);}
 .result.safe .result-title{color:var(--safe);}
-.result-sub{font-size:13px;color:var(--text-mid);line-height:1.5;}
-.result-pill{font-family:var(--mono);font-size:13px;font-weight:500;padding:4px 10px;border-radius:99px;white-space:nowrap;flex-shrink:0;}
-.result.danger .result-pill{background:#fee2e2;color:var(--danger);border:1px solid var(--danger-border);}
-.result.warn .result-pill{background:#fef3c7;color:var(--warn);border:1px solid var(--warn-border);}
-.result.safe .result-pill{background:#d1fae5;color:var(--safe);border:1px solid var(--safe-border);}
-.result-body{padding:20px 28px 24px;}
-.findings-title{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--text-dim);margin-bottom:12px;}
-.findings{display:flex;flex-direction:column;gap:8px;margin-bottom:20px;}
-.finding{display:flex;align-items:flex-start;gap:10px;padding:11px 14px;background:white;border-radius:var(--radius-sm);font-size:13.5px;line-height:1.5;box-shadow:var(--shadow-sm);border:1px solid rgba(0,0,0,.04);}
-.finding-icon{flex-shrink:0;font-size:15px;margin-top:1px;}
-.risk-wrap{background:white;border-radius:var(--radius-sm);padding:14px 16px;box-shadow:var(--shadow-sm);border:1px solid rgba(0,0,0,.04);}
-.risk-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
-.risk-label{font-size:12px;font-weight:600;color:var(--text-mid);text-transform:uppercase;letter-spacing:.8px;}
-.risk-value{font-family:var(--mono);font-size:14px;font-weight:500;}
+.result-sub{font-size:12px;color:var(--text-mid);line-height:1.5;}
+.result-pill{font-family:var(--mono);font-size:11px;font-weight:700;padding:3px 8px;border-radius:4px;white-space:nowrap;flex-shrink:0;margin-top:2px;}
+.result.danger .result-pill{background:var(--danger-light);color:var(--danger);border:1px solid var(--danger-border);}
+.result.warn .result-pill{background:var(--warn-light);color:var(--warn);border:1px solid var(--warn-border);}
+.result.safe .result-pill{background:var(--safe-light);color:var(--safe);border:1px solid var(--safe-border);}
+.result-body{padding:14px 18px 16px;}
+.findings-label{font-family:var(--mono);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--text-dim);margin-bottom:9px;}
+.findings{display:flex;flex-direction:column;gap:5px;margin-bottom:14px;}
+.finding{display:flex;align-items:flex-start;gap:9px;padding:9px 11px;background:var(--surface);border-radius:var(--radius-sm);font-size:13px;line-height:1.5;border:1px solid var(--border);}
+.finding-icon{flex-shrink:0;font-size:14px;margin-top:1px;}
+.risk-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:11px 13px;}
+.risk-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;}
+.risk-label{font-family:var(--mono);font-size:10px;font-weight:600;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;}
+.risk-value{font-family:var(--mono);font-size:12px;font-weight:700;}
 .result.danger .risk-value{color:var(--danger);}
 .result.warn .risk-value{color:var(--warn);}
 .result.safe .risk-value{color:var(--safe);}
-.risk-track{height:7px;background:var(--border-light);border-radius:99px;overflow:hidden;}
+.risk-track{height:3px;background:var(--border);border-radius:99px;overflow:hidden;}
 .risk-fill{height:100%;border-radius:99px;width:0%;transition:width 1.2s cubic-bezier(.4,0,.2,1);}
-.result.danger .risk-fill{background:linear-gradient(90deg,#f87171,var(--danger));}
-.result.warn .risk-fill{background:linear-gradient(90deg,#fbbf24,var(--warn));}
-.result.safe .risk-fill{background:linear-gradient(90deg,#34d399,var(--safe));}
+.result.danger .risk-fill{background:var(--danger);}
+.result.warn .risk-fill{background:var(--warn);}
+.result.safe .risk-fill{background:var(--safe);}
 
-/* HOW */
-.how{max-width:900px;margin:0 auto;padding:0 24px 80px;}
-.how-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
-@media(max-width:600px){.how-grid{grid-template-columns:1fr;}.form-card{padding:20px;}.result-top,.result-body{padding:18px 20px;}}
-.how-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow-sm);transition:box-shadow .2s,transform .2s;}
-.how-card:hover{box-shadow:var(--shadow);transform:translateY(-2px);}
-.how-num{font-family:var(--mono);font-size:11px;font-weight:500;color:var(--accent);background:var(--accent-light);border:1px solid #c7d9ff;width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;}
-.how-card h3{font-size:14px;font-weight:600;margin-bottom:6px;letter-spacing:-.1px;}
-.how-card p{font-size:13px;color:var(--text-mid);line-height:1.6;}
+/* HEADER SUMMARY */
+.header-summary{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;margin-bottom:11px;}
+.hs-row{display:grid;grid-template-columns:88px 1fr;gap:8px;padding:7px 11px;border-bottom:1px solid var(--border-light);align-items:baseline;}
+.hs-row:last-child{border-bottom:none;}
+.hs-key{font-family:var(--mono);font-size:10px;font-weight:600;color:var(--text-dim);text-transform:uppercase;letter-spacing:.5px;}
+.hs-val{color:var(--text);word-break:break-all;font-family:var(--mono);font-size:11.5px;}
+
+/* AUTH BADGES */
+.auth-row{display:flex;gap:5px;margin-bottom:11px;flex-wrap:wrap;}
+.auth-badge{font-family:var(--mono);font-size:11px;font-weight:600;padding:3px 9px;border-radius:4px;border:1px solid;}
+.auth-pass{background:var(--safe-light);color:var(--safe);border-color:var(--safe-border);}
+.auth-fail{background:var(--danger-light);color:var(--danger);border-color:var(--danger-border);}
+.auth-unknown{background:var(--surface-2);color:var(--text-dim);border-color:var(--border);}
+
+/* HOP CHAIN */
+.hop-chain{display:flex;flex-direction:column;}
+.hop{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--border-light);}
+.hop:last-child{border-bottom:none;}
+.hop-num{font-family:var(--mono);font-size:10px;font-weight:700;color:var(--blue);background:var(--blue-light);border:1px solid rgba(88,166,255,.15);width:22px;height:22px;border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.hop-info{font-size:12px;color:var(--text);line-height:1.7;flex:1;word-break:break-word;}
+.hop-label{color:var(--text-dim);font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-right:4px;}
+.hop-meta{color:var(--text-dim);font-family:var(--mono);font-size:11.5px;}
+.hop-date{color:var(--text-dim);font-size:11px;margin-top:1px;font-family:var(--mono);}
+.hop-delay{display:inline-block;font-family:var(--mono);font-size:10px;font-weight:700;padding:1px 5px;border-radius:3px;background:var(--blue-light);color:var(--blue);margin-left:6px;border:1px solid rgba(88,166,255,.15);}
 
 /* FOOTER */
-footer{border-top:1px solid var(--border);padding:24px;}
-.footer-inner{max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
-.footer-left{font-size:13px;color:var(--text-dim);}
+footer{border-top:1px solid var(--border);padding:18px 24px;}
+.footer-inner{max-width:960px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+.footer-left,.footer-right{font-family:var(--mono);font-size:11px;color:var(--text-dim);}
 .footer-left strong{color:var(--text-mid);}
-.footer-right{font-size:12px;color:var(--text-dim);font-family:var(--mono);}
 
-/* ANIMATIONS */
-@keyframes slideUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
-.spinner{display:none;width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite;}
+/* SPINNER */
+.spinner{display:none;width:13px;height:13px;border:2px solid rgba(255,255,255,.25);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
+
+@media(max-width:600px){
+  .tab-panel{padding:14px;}
+  .result-top,.result-body{padding:13px 15px;}
+}
 </style>
 </head>
 <body>
@@ -167,68 +199,91 @@ footer{border-top:1px solid var(--border);padding:24px;}
 <nav>
   <div class="nav-inner">
     <a class="nav-logo" href="#">
-      <div class="nav-logo-mark">🛡</div>
-      <div class="nav-logo-name">Phish<span>Guard</span></div>
+      <div class="nav-icon">🛡</div>
+      <div class="nav-name">PhishGuard</div>
     </a>
-    <div class="nav-badge">BERT · 97.4% Accuracy</div>
+    <div class="nav-right">by Kalixte Petrof</div>
   </div>
 </nav>
 
 <section class="hero">
-  <div class="hero-left">
-    <div class="hero-tag">AI-Powered Protection</div>
-    <h1>Is this message <em>really</em> safe?</h1>
-    <p class="hero-desc">PhishGuard uses BERT AI and real-time domain verification to detect phishing attempts in emails and texts — before you click anything.</p>
-    <div class="hero-stats">
-      <div class="hero-stat">
-        <div class="hero-stat-num">97.4%</div>
-        <div class="hero-stat-label">Accuracy</div>
-      </div>
-      <div class="hero-stat-div"></div>
-      <div class="hero-stat">
-        <div class="hero-stat-num">3</div>
-        <div class="hero-stat-label">Detection Layers</div>
-      </div>
-      <div class="hero-stat-div"></div>
-      <div class="hero-stat">
-        <div class="hero-stat-num">0</div>
-        <div class="hero-stat-label">Data Sent Online</div>
-      </div>
-    </div>
+  <div>
+    <div class="hero-label">Phishing Detector</div>
+    <h1>Catch phishing<br>before you click.</h1>
+    <p class="hero-desc">Paste a suspicious message or raw email headers to get an instant breakdown — sender verification, SPF/DKIM/DMARC checks, domain spoofing, and pattern detection.</p>
+    <div class="hero-note">Everything runs in your browser. <span>No data leaves your device.</span></div>
   </div>
-  <div class="hero-right">
-    <div class="threat-card">
-      <div class="threat-card-header">
-        <div class="threat-card-title">Live Threat Examples</div>
-        <div class="threat-live">● Active</div>
+  <div>
+    <div class="threat-feed">
+      <div class="feed-header">
+        <div class="feed-title">Example threats</div>
+        <div class="feed-live">live</div>
       </div>
-      <div class="threat-item r"><div class="threat-dot"></div>Your account has been suspended. Verify now.</div>
-      <div class="threat-item r"><div class="threat-dot"></div>IRS: Your tax refund of $892 is pending.</div>
-      <div class="threat-item y"><div class="threat-dot"></div>Your package could not be delivered.</div>
-      <div class="threat-item g"><div class="threat-dot"></div>Hey, are we still on for dinner tonight?</div>
+      <div class="feed-item r">
+        <div class="feed-dot"></div>
+        <div class="feed-text">Your account has been suspended. Verify now.</div>
+        <div class="feed-badge">HIGH</div>
+      </div>
+      <div class="feed-item r">
+        <div class="feed-dot"></div>
+        <div class="feed-text">IRS: Your tax refund of $892 is pending.</div>
+        <div class="feed-badge">HIGH</div>
+      </div>
+      <div class="feed-item y">
+        <div class="feed-dot"></div>
+        <div class="feed-text">Your package could not be delivered.</div>
+        <div class="feed-badge">MED</div>
+      </div>
+      <div class="feed-item g">
+        <div class="feed-dot"></div>
+        <div class="feed-text">Hey, are we still on for dinner tonight?</div>
+        <div class="feed-badge">SAFE</div>
+      </div>
     </div>
   </div>
 </section>
 
 <main class="main">
-  <div class="divider-label">Analyze a message</div>
+  <div class="section-bar">Run analysis</div>
   <div class="form-card">
-    <div class="field">
-      <label>Message or Email Body</label>
-      <textarea id="messageInput" placeholder="Paste the suspicious message or email body here..."></textarea>
+    <div class="tabs">
+      <button class="tab-btn active" id="tab-message" onclick="switchTab('message')">Message Analysis</button>
+      <button class="tab-btn" id="tab-header" onclick="switchTab('header')">Header Analysis</button>
     </div>
-    <div class="field">
-      <label>Sender Email Address <span class="optional">(optional but recommended)</span></label>
-      <input type="text" id="senderInput" placeholder="e.g. Name@domain.com">
+
+    <div id="panel-message" class="tab-panel">
+      <div class="field">
+        <label>Message or Email Body</label>
+        <textarea id="messageInput" placeholder="Paste the suspicious message or email body here..."></textarea>
+      </div>
+      <div class="field">
+        <label>Sender Email <span class="optional">(optional)</span></label>
+        <input type="text" id="senderInput" placeholder="sender@domain.com">
+      </div>
+      <div class="btn-row">
+        <button class="btn-analyze" id="analyzeBtn" onclick="analyze()">
+          <div class="spinner" id="spinner"></div>
+          <span id="btnText">Analyze</span>
+        </button>
+        <button class="btn-clear" onclick="clearAll()">Clear</button>
+      </div>
+      <p class="hint"><kbd>ctrl+enter</kbd> to analyze quickly</p>
     </div>
-    <div class="btn-row">
-      <button class="btn-analyze" id="analyzeBtn" onclick="analyze()">
-        <div class="spinner" id="spinner"></div>
-        <span id="btnText">Analyze Message</span>
-      </button>
-      <button class="btn-clear" onclick="clearAll()">Clear</button>
+
+    <div id="panel-header" class="tab-panel" style="display:none">
+      <div class="field">
+        <label>Raw Email Headers</label>
+        <textarea id="headerInput" placeholder="Paste full email headers here...&#10;&#10;Received: from mail.example.com ...&#10;From: sender@example.com&#10;Authentication-Results: spf=pass dkim=pass&#10;..."></textarea>
+      </div>
+      <div class="btn-row">
+        <button class="btn-analyze" id="headerAnalyzeBtn" onclick="runHeaderAnalysis()">
+          <div class="spinner" id="headerSpinner"></div>
+          <span id="headerBtnText">Analyze</span>
+        </button>
+        <button class="btn-clear" onclick="clearHeaders()">Clear</button>
+      </div>
+      <p class="hint">Gmail → three-dot menu → "Show original" → copy everything above the body</p>
     </div>
-    <p class="hint">💡 Press <kbd>Ctrl+Enter</kbd> to analyze quickly</p>
   </div>
 
   <div class="result" id="result">
@@ -241,7 +296,7 @@ footer{border-top:1px solid var(--border);padding:24px;}
       <div class="result-pill" id="resultPill"></div>
     </div>
     <div class="result-body">
-      <div class="findings-title">What we found</div>
+      <div class="findings-label">Findings</div>
       <div class="findings" id="findings"></div>
       <div class="risk-wrap">
         <div class="risk-header">
@@ -252,33 +307,14 @@ footer{border-top:1px solid var(--border);padding:24px;}
       </div>
     </div>
   </div>
-</main>
 
-<section class="how">
-  <div class="divider-label">How it works</div>
-  <div class="how-grid">
-    <div class="how-card">
-      <div class="how-num">01</div>
-      <h3>AI Message Analysis</h3>
-      <p>BERT reads the full message and understands context — not just keywords — to detect phishing patterns humans miss.</p>
-    </div>
-    <div class="how-card">
-      <div class="how-num">02</div>
-      <h3>Domain Verification</h3>
-      <p>Cross-references the sender's domain against verified companies and detects typosquatting like paypa1.com.</p>
-    </div>
-    <div class="how-card">
-      <div class="how-num">03</div>
-      <h3>Privacy First</h3>
-      <p>All analysis runs locally on your device. Your messages are never sent to any server — zero data leaves your browser.</p>
-    </div>
-  </div>
-</section>
+  <div class="result" id="headerResult" style="display:none;margin-top:10px;"></div>
+</main>
 
 <footer>
   <div class="footer-inner">
-    <div class="footer-left">Built by <strong>Kalixte Petrof</strong> — PhishGuard Research Project</div>
-    <div class="footer-right">BERT · Domain Verification · Typosquat Detection</div>
+    <div class="footer-left">PhishGuard — built by <strong>Kalixte Petrof</strong></div>
+    <div class="footer-right">heuristic · domain · header analysis</div>
   </div>
 </footer>
 
@@ -302,12 +338,16 @@ function analyzeSender(email){
   else if(sub){const[vd,co]=sub;f.push({i:"✅",t:`Sender is a legitimate subdomain of <strong>${co}</strong> (${vd})`});risk-=15;}
   else{
     let imp=false;
-    for(const[vd,co]of Object.entries(VERIFIED_DOMAINS)){const b=vd.split(".")[0];if(domain.includes(b)&&!domain.endsWith("."+vd)){f.push({i:"🚨",t:`Domain contains "<strong>${b}</strong>" but is NOT the official ${co} domain. Real domain: <strong>${vd}</strong>`});risk+=65;imp=true;break;}}
+    for(const[vd,co]of Object.entries(VERIFIED_DOMAINS)){
+      const b=vd.split(".")[0];
+      const domainBase=domain.split(".")[0];
+      if(b===domainBase&&domain!==vd){f.push({i:"🚨",t:`Domain contains "<strong>${b}</strong>" but is NOT the official ${co} domain. Real domain: <strong>${vd}</strong>`});risk+=65;imp=true;break;}
+    }
     if(!imp){f.push({i:"⚠️",t:`Sender domain "<strong>${domain}</strong>" is not in our verified list`});risk+=10;}
   }
   if(FREE_PROVIDERS.includes(domain)){f.push({i:"🚨",t:`Sent from a free email provider (<strong>${domain}</strong>). Real companies never send account alerts from Gmail or Yahoo.`});risk+=45;}
   for(const tld of SUSPICIOUS_TLDS){if(domain.endsWith(tld)){f.push({i:"🚨",t:`Suspicious domain extension "<strong>${tld}</strong>" — commonly used in phishing`});risk+=40;break;}}
-  const tm={'0':'o','1':'l','3':'e','rn':'m','vv':'w','nn':'m'};
+  const tm={'0':'o','1':'l','3':'e','rn':'m','vv':'w'};
   for(const[fk,rl]of Object.entries(tm)){if(domain.includes(fk)){const fx=domain.replaceAll(fk,rl);if(VERIFIED_DOMAINS[fx]){f.push({i:"🚨",t:`Typosquatting detected — "<strong>${domain}</strong>" appears to be a fake version of <strong>${fx}</strong>`});risk+=80;break;}}}
   if(/\d{4,}/.test(domain)){f.push({i:"⚠️",t:"Domain contains many numbers — unusual for legitimate businesses"});risk+=20;}
   return{findings:f,risk};
@@ -341,7 +381,7 @@ async function analyze(){
   document.getElementById("btnText").textContent="Analyzing…";
   document.getElementById("result").style.display="none";
   document.getElementById("riskFill").style.width="0%";
-  await new Promise(r=>setTimeout(r,1100));
+  await new Promise(r=>setTimeout(r,800));
   const mA=analyzeMessage(msg),sA=analyzeSender(snd);
   let risk=Math.min(Math.max(0,mA.risk+sA.risk),100);
   const all=[...sA.findings,...mA.findings];
@@ -355,17 +395,208 @@ async function analyze(){
   document.getElementById("resultIcon").textContent=icon;
   document.getElementById("resultTitle").textContent=verdict;
   document.getElementById("resultSub").textContent=sub;
-  document.getElementById("resultPill").textContent=`Risk: ${Math.round(risk)}%`;
+  document.getElementById("resultPill").textContent=`${Math.round(risk)}%`;
   document.getElementById("findings").innerHTML=all.map(f=>`<div class="finding"><span class="finding-icon">${f.i}</span><span>${f.t}</span></div>`).join("");
   document.getElementById("riskScore").textContent=`${Math.round(risk)}%`;
   el.style.display="block";
   setTimeout(()=>{document.getElementById("riskFill").style.width=`${risk}%`;},80);
   btn.disabled=false;
   document.getElementById("spinner").style.display="none";
-  document.getElementById("btnText").textContent="Analyze Message";
+  document.getElementById("btnText").textContent="Analyze";
 }
 
-document.addEventListener("keydown",e=>{if(e.key==="Enter"&&e.ctrlKey)analyze();});
+document.addEventListener("keydown",e=>{if(e.key==="Enter"&&e.ctrlKey&&document.getElementById("panel-message").style.display!=="none")analyze();});
+
+/* ── Tab switcher ── */
+function switchTab(tab){
+  document.getElementById("panel-message").style.display=tab==="message"?"":"none";
+  document.getElementById("panel-header").style.display=tab==="header"?"":"none";
+  document.getElementById("tab-message").classList.toggle("active",tab==="message");
+  document.getElementById("tab-header").classList.toggle("active",tab==="header");
+  document.getElementById("result").style.display="none";
+  document.getElementById("headerResult").style.display="none";
+}
+
+/* ── Header analysis helpers (MHA-inspired) ── */
+function parseHeaderList(raw){
+  const lines=raw.split(/\r\n|\r|\n/);
+  const headers=[];let cur=null;let bodyStarted=false;
+  for(const line of lines){
+    if(bodyStarted)break;
+    if(line===""){if(headers.length>0)bodyStarted=true;continue;}
+    const m=line.match(/^([\w\-\.]+):\s*(.*)/);
+    if(m&&!/^\d{1,2}$/.test(m[1])){cur={name:m[1],value:m[2]||""};headers.push(cur);}
+    else if(cur){cur.value+=" "+line.trim();}
+  }
+  return headers;
+}
+
+function parseReceivedHop(value){
+  value=value.replace(/\r|\n/g," ");
+  let dateStr="",dateNum=NaN;
+  const semi=value.lastIndexOf(";");
+  if(semi!==-1){dateStr=value.substring(semi+1).trim();dateNum=new Date(dateStr).getTime();value=value.substring(0,semi);}
+  const fields={from:"",by:"",with:"",id:"",for:""};
+  const tokens=value.trim().split(/\s+/);
+  const matches=[];
+  Object.keys(fields).forEach(kw=>{tokens.forEach((tok,i)=>{if(tok.toLowerCase()===kw)matches.push({kw,i});});});
+  matches.sort((a,b)=>a.i-b.i);
+  matches.forEach((m,idx)=>{
+    const next=idx+1<matches.length?matches[idx+1].i:tokens.length;
+    fields[m.kw]=tokens.slice(m.i+1,next).join(" ").trim();
+  });
+  return{...fields,dateStr,dateNum};
+}
+
+function emailDomain(str){
+  if(!str)return"";
+  const ang=str.match(/<([^>]+)>/);
+  const addr=ang?ang[1]:str.trim();
+  if(addr.includes("@"))return addr.split("@").pop().toLowerCase();
+  return addr.split(/[\s(]/)[0].toLowerCase();
+}
+
+function hopDelay(ms){
+  if(isNaN(ms))return"";
+  const neg=ms<0?"−":"+";const abs=Math.abs(ms);
+  if(abs<1000)return`${neg}0s`;
+  if(abs<60000)return`${neg}${Math.round(abs/1000)}s`;
+  return`${neg}${Math.round(abs/60000)}m`;
+}
+
+function badgeCls(v){
+  if(v==="pass")return"auth-pass";
+  if(v==="fail"||v==="softfail")return"auth-fail";
+  return"auth-unknown";
+}
+
+/* ── Header analysis ── */
+function runHeaderAnalysis(){
+  const raw=document.getElementById("headerInput").value.trim();
+  if(!raw){const ta=document.getElementById("headerInput");ta.style.borderColor="var(--danger)";ta.focus();setTimeout(()=>ta.style.borderColor="",1800);return;}
+  const btn=document.getElementById("headerAnalyzeBtn");
+  btn.disabled=true;
+  document.getElementById("headerSpinner").style.display="block";
+  document.getElementById("headerBtnText").textContent="Analyzing…";
+  document.getElementById("headerResult").style.display="none";
+
+  setTimeout(()=>{
+    const headers=parseHeaderList(raw);
+    const get=name=>(headers.find(h=>h.name.toLowerCase()===name.toLowerCase())||{}).value||"";
+
+    const from=get("From"),replyTo=get("Reply-To"),returnPath=get("Return-Path");
+    const subject=get("Subject"),date=get("Date"),msgId=get("Message-ID");
+
+    const receivedHops=headers.filter(h=>h.name.toLowerCase()==="received").map(h=>parseReceivedHop(h.value)).reverse();
+
+    const authRaw=get("Authentication-Results")+" "+get("ARC-Authentication-Results");
+    const spf=(authRaw.match(/spf=([\w]+)/i)||[])[1]?.toLowerCase()||"unknown";
+    const dkim=(authRaw.match(/dkim=([\w]+)/i)||[])[1]?.toLowerCase()||"unknown";
+    const dmarc=(authRaw.match(/dmarc=([\w]+)/i)||[])[1]?.toLowerCase()||"unknown";
+
+    const findings=[];let risk=0;
+    const fromDom=emailDomain(from);
+    const replyDom=emailDomain(replyTo);
+    const returnDom=emailDomain(returnPath.replace(/[<>]/g,""));
+
+    if(replyDom&&fromDom&&replyDom!==fromDom){findings.push({i:"🚨",t:`Reply-To domain (<strong>${replyDom}</strong>) differs from From domain (<strong>${fromDom}</strong>) — possible reply hijacking`});risk+=25;}
+    if(returnDom&&fromDom&&returnDom!==fromDom){findings.push({i:"⚠️",t:`Return-Path domain (<strong>${returnDom}</strong>) differs from From domain — bounce emails are redirected elsewhere`});risk+=20;}
+
+    if(spf==="fail"||spf==="softfail"){findings.push({i:"🚨",t:`SPF check <strong>failed</strong> — this server is not authorized to send for this domain`});risk+=30;}
+    else if(spf==="none"){findings.push({i:"⚠️",t:"SPF record not found for sender domain"});risk+=15;}
+    else if(spf==="pass")findings.push({i:"✅",t:"SPF check passed"});
+
+    if(dkim==="fail"){findings.push({i:"🚨",t:`DKIM signature <strong>failed</strong> — email may have been tampered with in transit`});risk+=20;}
+    else if(dkim==="none"){findings.push({i:"⚠️",t:"No DKIM signature present on this email"});risk+=10;}
+    else if(dkim==="pass")findings.push({i:"✅",t:"DKIM signature is valid"});
+
+    if(dmarc==="fail"){findings.push({i:"🚨",t:`DMARC policy <strong>failed</strong> — sender failed domain alignment checks`});risk+=25;}
+    else if(dmarc==="none"){findings.push({i:"⚠️",t:"No DMARC policy configured for this domain"});risk+=10;}
+    else if(dmarc==="pass")findings.push({i:"✅",t:"DMARC policy passed"});
+
+    if(receivedHops.length>0){
+      const firstFrom=receivedHops[0].from;
+      if(firstFrom&&SUSPICIOUS_TLDS.some(tld=>firstFrom.includes(tld))){findings.push({i:"🚨",t:`Email originates from a suspicious domain: <strong>${firstFrom}</strong>`});risk+=20;}
+    }
+
+    let prevTime=NaN;
+    receivedHops.forEach(hop=>{
+      if(!isNaN(hop.dateNum)){
+        if(!isNaN(prevTime)&&(hop.dateNum-prevTime)/60000>60){findings.push({i:"⚠️",t:`Unusual hop delay of <strong>${Math.round((hop.dateNum-prevTime)/60000)} minutes</strong> — email may have been held or rerouted`});risk+=10;}
+        prevTime=hop.dateNum;
+      }
+    });
+
+    const xspam=get("X-Spam-Status").toLowerCase();
+    if(xspam.startsWith("yes")){findings.push({i:"🚨",t:"Spam filter flagged this message (<code>X-Spam-Status: Yes</code>)"});risk+=40;}
+
+    if(!findings.length)findings.push({i:"🔍",t:"No suspicious header patterns detected."});
+    risk=Math.min(Math.max(0,risk),100);
+
+    let cls,icon,verdict,sub;
+    if(risk>=55){cls="danger";icon="🚨";verdict="High Risk — Headers Show Phishing Signs";sub="Authentication failures and mismatched domains are strong indicators of a forged sender.";}
+    else if(risk>=25){cls="warn";icon="⚠️";verdict="Suspicious Headers — Proceed with Caution";sub="Some header checks failed. Verify through official channels before taking any action.";}
+    else{cls="safe";icon="✅";verdict="Headers Look Legitimate";sub="No major red flags found in email routing or authentication headers.";}
+
+    const iconBg=cls==="danger"?"rgba(248,81,73,.18)":cls==="warn"?"rgba(210,153,34,.18)":"rgba(63,185,80,.18)";
+
+    const summaryRows=[["From",from],["Reply-To",replyTo],["Return-Path",returnPath],["Subject",subject],["Date",date],["Message-ID",msgId]].filter(([,v])=>v);
+    const summaryHTML=summaryRows.length?`<div class="header-summary">${summaryRows.map(([k,v])=>`<div class="hs-row"><span class="hs-key">${k}</span><span class="hs-val">${v.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}</span></div>`).join("")}</div>`:"";
+
+    const authVisible=spf!=="unknown"||dkim!=="unknown"||dmarc!=="unknown";
+    const authHTML=authVisible?`<div class="auth-row"><div class="auth-badge ${badgeCls(spf)}">SPF: ${spf}</div><div class="auth-badge ${badgeCls(dkim)}">DKIM: ${dkim}</div><div class="auth-badge ${badgeCls(dmarc)}">DMARC: ${dmarc}</div></div>`:"";
+
+    let hopHTML="";
+    if(receivedHops.length>0){
+      let pt=NaN;
+      hopHTML=`<div class="findings-label" style="margin-top:13px">Received Chain (${receivedHops.length} hop${receivedHops.length>1?"s":""})</div><div class="hop-chain">`
+        +receivedHops.map((hop,i)=>{
+          let delay="";
+          if(!isNaN(hop.dateNum)&&!isNaN(pt))delay=hopDelay(hop.dateNum-pt);
+          if(!isNaN(hop.dateNum))pt=hop.dateNum;
+          return`<div class="hop"><div class="hop-num">${i+1}</div><div class="hop-info">${hop.from?`<span class="hop-label">from</span> <strong>${hop.from}</strong><br>`:""}${hop.by?`<span class="hop-label">by</span> ${hop.by}`:""}${hop.with?` <span class="hop-meta">via ${hop.with}</span>`:""}${hop.dateStr?`<div class="hop-date">${hop.dateStr}${delay?` <span class="hop-delay">${delay}</span>`:""}</div>`:""}</div></div>`;
+        }).join("")+"</div>";
+    }
+
+    const findingsHTML=findings.map(f=>`<div class="finding"><span class="finding-icon">${f.i}</span><span>${f.t}</span></div>`).join("");
+
+    const el=document.getElementById("headerResult");
+    el.className=`result ${cls}`;
+    el.innerHTML=`
+      <div class="result-top">
+        <div class="result-icon-wrap" style="background:${iconBg}">${icon}</div>
+        <div class="result-heading">
+          <div class="result-title">${verdict}</div>
+          <div class="result-sub">${sub}</div>
+        </div>
+        <div class="result-pill">${Math.round(risk)}%</div>
+      </div>
+      <div class="result-body">
+        ${summaryHTML}${authHTML}${hopHTML}
+        <div class="findings-label" style="margin-top:13px">Findings</div>
+        <div class="findings">${findingsHTML}</div>
+        <div class="risk-wrap">
+          <div class="risk-header">
+            <div class="risk-label">Risk Score</div>
+            <div class="risk-value">${Math.round(risk)}%</div>
+          </div>
+          <div class="risk-track"><div id="headerRiskFill" class="risk-fill"></div></div>
+        </div>
+      </div>`;
+
+    el.style.display="block";
+    setTimeout(()=>{const f=document.getElementById("headerRiskFill");if(f)f.style.width=risk+"%";},80);
+    btn.disabled=false;
+    document.getElementById("headerSpinner").style.display="none";
+    document.getElementById("headerBtnText").textContent="Analyze";
+  },400);
+}
+
+function clearHeaders(){
+  document.getElementById("headerInput").value="";
+  document.getElementById("headerResult").style.display="none";
+  document.getElementById("headerInput").focus();
+}
 </script>
 </body>
 </html>

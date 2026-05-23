@@ -90,7 +90,6 @@ TYPOSQUAT_CHARS = {
     '0': 'o',   # micros0ft
     '1': 'l',   # paypa1
     '3': 'e',   # n3tflix
-    '@': 'a',   # p@ypal (in domain)
     'rn': 'm',  # arnazon looks like amazon
     'vv': 'w',  # vvellsfargo
 }
@@ -124,7 +123,8 @@ def check_sender(email):
         # Check if it's PRETENDING to be a known company
         for verified_domain, company in VERIFIED_DOMAINS.items():
             company_name = verified_domain.split(".")[0]  # e.g. "wellsfargo"
-            if company_name in domain and domain != verified_domain:
+            domain_base = domain.split(".")[0]
+            if company_name == domain_base and domain != verified_domain:
                 results.append(f"🚨 Domain contains '{company_name}' but is NOT the official {company} domain!")
                 results.append(f"   Official domain is: {verified_domain}")
                 risk_score += 60  # Big red flag
